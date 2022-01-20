@@ -29,14 +29,23 @@ public class HelpCommand implements Command{
         keyboar.setText("second button");
         keyboar.setCallbackData("update_msg_text");
         rowInline.add(keyboar);
+        keyboar =new InlineKeyboardButton();
+        keyboar.setText("<b>bold text</b>");
+        keyboar.setCallbackData("update_msg_text");
         rowInline.add(keyboar);
+        keyboar =new InlineKeyboardButton();
+        keyboar.setText("_italic text_");
+        keyboar.setCallbackData("update_msg_text");
         rowInline.add(keyboar);
         rowsInline.add(rowInline);
         rowsInline.add(rowInline);
 
         markupInline.setKeyboard(rowsInline);
 
+
+        outMessage.enableHtml(true);
         outMessage.setReplyMarkup(markupInline);
+        outMessage.setText("<b><i> "+inMessage.getText()+" helpCommand </i></b>");
 
         SendUserMessageImpl.sendMessage(outMessage);
     }
