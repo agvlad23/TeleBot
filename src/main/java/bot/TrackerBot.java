@@ -1,6 +1,7 @@
 package bot;
 
 import commands.CommandName;
+import commands.CommandParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -34,7 +35,7 @@ public class TrackerBot extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
 
             if (messageText.startsWith(botPrefix)){
-                CommandName.getCommandClass(messageText).req(chatId.toString(),messageText+" "+update.getMessage().getChat().getUserName());
+                CommandParser.getCommandClass(messageText).req(chatId.toString(),messageText+" "+update.getMessage().getChat().getUserName());
             }
 
         }
