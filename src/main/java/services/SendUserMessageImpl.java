@@ -1,5 +1,6 @@
 package services;
 
+import bot.TrackerBot;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -9,13 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SendUserMessageImpl {
-    static TelegramLongPollingBot teleBot;
+    protected static TelegramLongPollingBot teleBot;
     private static final Logger LOGGER = Logger.getLogger(SendUserMessageImpl.class.getName());
 
-    public SendUserMessageImpl(TelegramLongPollingBot teleBot2) {
-        if (teleBot == null)
-            teleBot = teleBot2;
-    }
+
 
 
     public static void sendMessage(String chatID, String messageText) {
@@ -35,4 +33,8 @@ public class SendUserMessageImpl {
 
     }
 
+    public static void init(TrackerBot trackerBot) {
+        if (teleBot == null)
+            teleBot = trackerBot;
+    }
 }

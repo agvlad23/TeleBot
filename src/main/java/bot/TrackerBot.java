@@ -12,6 +12,10 @@ public class TrackerBot extends TelegramLongPollingBot {
     protected String botToken = "5256506946:AAFMb-TOlVmpb5482_Ki3KxansDsTDGFQBU";
     protected final String botPrefix="/";
 
+    public TrackerBot() {
+         SendUserMessageImpl.init(this);
+    }
+
     @Override
     public String getBotUsername() {
         return botName;
@@ -25,11 +29,9 @@ public class TrackerBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            // Set variables
+
             String messageText = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
-
-            SendUserMessageImpl s= new SendUserMessageImpl(this);
 
             if (messageText.startsWith(botPrefix)){
                 CommandName.getCommandClass(messageText).req(chatId.toString(),messageText+" "+update.getMessage().getChat().getUserName());
