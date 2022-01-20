@@ -8,6 +8,8 @@ public class CommandParser {
                 return new StartCommand();
             case "/stop":
                 return new StopCommand();
+            case "/help":
+                return new HelpCommand();
             default: return new StartCommand();
         }
     }
