@@ -1,12 +1,43 @@
 package commands;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import services.SendUserMessageImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelpCommand implements Command{
     @Override
-    public void req(String chatId, String messageText) {
+    public void req(Update update) {
         System.out.println("helpCommand");
 
-        SendUserMessageImpl.sendMessage(chatId,"this is help command");
+        var inMessage=update.getMessage();
+        SendMessage outMessage=new SendMessage(inMessage.getChatId().toString(),inMessage.getText()+" helpCommand");
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        var keyboar =new InlineKeyboardButton();
+        keyboar.setText("Update message text");
+        keyboar.setCallbackData("update_msg_text");
+        rowInline.add(keyboar);
+
+        keyboar =new InlineKeyboardButton();
+        keyboar.setText("second button");
+        keyboar.setCallbackData("update_msg_text");
+        rowInline.add(keyboar);
+        rowInline.add(keyboar);
+        rowInline.add(keyboar);
+        rowsInline.add(rowInline);
+        rowsInline.add(rowInline);
+
+        markupInline.setKeyboard(rowsInline);
+
+        outMessage.setReplyMarkup(markupInline);
+
+        SendUserMessageImpl.sendMessage(outMessage);
     }
 }

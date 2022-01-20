@@ -4,6 +4,7 @@ import commands.CommandName;
 import commands.CommandParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import services.SendUserMessageImpl;
@@ -35,9 +36,26 @@ public class TrackerBot extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
 
             if (messageText.startsWith(botPrefix)){
-                CommandParser.getCommandClass(messageText).req(chatId.toString(),messageText+" "+update.getMessage().getChat().getUserName());
+                CommandParser.getCommandClass(messageText).req(update);
             }
 
+        } else if (update.hasCallbackQuery()) {
+
+            String call_data = update.getCallbackQuery().getData();
+            String  message_id = update.getCallbackQuery().getMessage().getMessageId().toString();
+            String chat_id = update.getCallbackQuery().getMessage().getChatId().toString();
+
+            if (call_data.equals("update_msg_text")) {
+                String answer = "Updated message text";
+
+                EditMessageText new_message = new EditMessageText();
+                new_message.setChatId(chat_id);
+                new_message.setMessageId(Integer.parseInt(message_id));
+                new_message.setText(answer);
+
+                SendUserMessageImpl.sendMessage(new_message);
+
+            }
         }
 
     }

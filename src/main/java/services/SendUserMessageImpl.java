@@ -2,6 +2,7 @@ package services;
 
 import bot.TrackerBot;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramBot;
@@ -16,11 +17,7 @@ public class SendUserMessageImpl {
 
 
 
-    public static void sendMessage(String chatID, String messageText) {
-
-            SendMessage message= new SendMessage();
-            message.setChatId(chatID);
-            message.setText(messageText);
+    public static void sendMessage(BotApiMethod<?> message) {
             try {
                 teleBot.execute(message);
             } catch (TelegramApiException e) {
