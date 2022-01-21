@@ -1,5 +1,6 @@
 package commands;
 
+import model.Person;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -11,10 +12,13 @@ import java.util.List;
 
 public class HelpCommand implements Command{
     @Override
-    public void req(Update update) {
+    public void req(Person p) {
+        var update =p.getUpdate();
         System.out.println("helpCommand");
 
+
         var inMessage=update.getMessage();
+
         SendMessage outMessage=new SendMessage(inMessage.getChatId().toString(),inMessage.getText()+" helpCommand");
 
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();

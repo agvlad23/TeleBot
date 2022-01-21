@@ -1,9 +1,12 @@
 package bot;
 
 import commands.CommandParser;
+
+import model.Person;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import roles.Role;
 import services.SendUserMessageImpl;
 
 import java.io.FileInputStream;
@@ -48,9 +51,10 @@ public class TrackerBot extends TelegramLongPollingBot {
 
             String messageText = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
-
+            var role= Role.User;
+            var person=new Person(role,update);
             if (messageText.startsWith(botPrefix)){
-                CommandParser.getCommandClass(messageText).req(update);
+                CommandParser.getCommandClass(messageText).req(person);
             }
 
         } else if (update.hasCallbackQuery()) {
