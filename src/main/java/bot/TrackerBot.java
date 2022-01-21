@@ -1,21 +1,34 @@
 package bot;
 
-import commands.CommandName;
 import commands.CommandParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import services.SendUserMessageImpl;
 
-public class TrackerBot extends TelegramLongPollingBot {
-    protected String botName = "TestoPlsletMeRegisterThisNameBot";
-    protected String botToken = "5256506946:AAFMb-TOlVmpb5482_Ki3KxansDsTDGFQBU";
-    protected final String botPrefix="/";
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Properties;
 
-    public TrackerBot() {
-         SendUserMessageImpl.init(this);
+public class TrackerBot extends TelegramLongPollingBot {
+    protected String botName ;
+    protected String botToken;
+    protected static final String botPrefix="/";
+
+    public TrackerBot()  {
+        SendUserMessageImpl.init(this);
+        Properties properties = new Properties();
+        String rootPath=
+                Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+                        .getResource("local.properties")).getPath();
+        try {
+            properties.load(new FileInputStream(rootPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        botToken = properties.getProperty("Tracker_Token");
+        botName = properties.getProperty("Tracker_Name");
     }
 
     @Override
