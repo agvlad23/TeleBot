@@ -14,10 +14,11 @@ import java.util.Properties;
 public class TrackerBot extends TelegramLongPollingBot {
     protected String botName ;
     protected String botToken;
-    protected static final String botPrefix="/";
+    public static final String botPrefix="/";
 
     public TrackerBot()  {
         SendUserMessageImpl.init(this);
+
         Properties properties = new Properties();
         String rootPath=
                 Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
